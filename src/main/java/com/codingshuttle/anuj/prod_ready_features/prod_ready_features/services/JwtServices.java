@@ -13,68 +13,47 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Set;
 
-//@Service
-//public class JwtServices {
-//
-//    @Value("${jwt.secretKey}")
-//    private String jwtSecretKey;
-//
-//    private SecretKey getSecretKey(){
-//        return Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
-//    }
-//
-//    public String generateToken(User user){
-//        return Jwts.builder()
-//                .subject(user.getId().toString())
-//                .claim("email", user.getEmail())
-//                .claim("roles", Set.of("ADMIN", "USER"))
-//                .issuedAt(new Date())
-//                .expiration(new Date(System.currentTimeMillis()+1000*60))
-//                .signWith(getSecretKey())
-//                .compact();
-//    }
-//
-//    public Long getUserIdFromToken(String token){
-//        Claims claims = Jwts.parser()
-//                .verifyWith(getSecretKey())
-//                .build()
-//                .parseSignedClaims(token)
-//                .getPayload();
-//
-//        return Long.valueOf(claims.getSubject());
-//    }
-//}
-
 @Service
 public class JwtServices {
 
     @Value("${jwt.secretKey}")
-    private String jwtSecretekey;
+    private String jwtSecretKey;
 
-    private SecretKey getsecretKey(){
-        return Keys.hmacShaKeyFor(jwtSecretekey.getBytes(StandardCharsets.UTF_8));
+    private SecretKey getSecretKey(){
+        return Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-
-    public String generateToken(User user){
+    public String generateAccessToken(User user){
         return Jwts.builder()
                 .subject(user.getId().toString())
-                .claim("email",user.getEmail())
-                .claim("password", user.getPassword())
+                .claim("email", user.getEmail())
+                .claim("roles", Set.of("ADMIN", "USER"))
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis()+1000*60))
-                .signWith(getsecretKey())
+                .expiration(new Date(System.currentTimeMillis()+1000*30))
+                .signWith(getSecretKey())
                 .compact();
-
     }
-    public Long getUserIdFromToken(String token) {
+
+    public String generateRefreshToken(User user){
+        return Jwts.builder()
+                .subject(user.getId().toString())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis()+1000L*60))
+                .signWith(getSecretKey())
+                .compact();
+    }
+
+    public Long getUserIdFromToken(String token){
         Claims claims = Jwts.parser()
-                .verifyWith(getsecretKey())
+                .verifyWith(getSecretKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+
         return Long.valueOf(claims.getSubject());
     }
-
-
 }
+
+
+
+

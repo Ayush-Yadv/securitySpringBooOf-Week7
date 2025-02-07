@@ -6,6 +6,7 @@ import com.codingshuttle.anuj.prod_ready_features.prod_ready_features.entities.U
 import com.codingshuttle.anuj.prod_ready_features.prod_ready_features.exceptions.ResourceNotFoundException;
 import com.codingshuttle.anuj.prod_ready_features.prod_ready_features.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@ToString
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -28,7 +30,12 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
-                .orElseThrow(()-> new ResourceNotFoundException("user with email " + username + " not found"));
+                .orElseThrow(()-> new BadCredentialsException("user with email " + username + " not found"));
+    }
+
+    public User getUserById(Long userId){
+        return userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("user with id " + userId + " not found"));
     }
 
     public ResponseEntity<UserDto> signUp(SignUpDto signUpDto) {
