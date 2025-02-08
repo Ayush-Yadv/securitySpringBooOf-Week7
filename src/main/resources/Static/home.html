@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Successful</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #ffdde1);
+            animation: gradientBG 10s infinite alternate;
+        }
+
+        @keyframes gradientBG {
+            0% { background: linear-gradient(45deg, #ff9a9e, #fad0c4); }
+            50% { background: linear-gradient(45deg, #ffdde1, #fbc2eb); }
+            100% { background: linear-gradient(45deg, #a18cd1, #fad0c4); }
+        }
+
+        .message {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+<div class="message">Login Successful! <br> Welcome to the New World 🌍
+    "I am ayush yadav and here i am happy to help you all "
+</div>
+</body>
+</html>
